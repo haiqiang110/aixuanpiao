@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI选门票 · 演示录屏</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* 演示模式：卡片 hover 展示的顺序由 JS 触发，不需要手动鼠标 */
+    .record-hint {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+      font-size: 13px;
+      color: #ffffff;
+      background: rgba(17,17,22,0.55);
+      backdrop-filter: blur(8px);
+      padding: 7px 14px;
+      border-radius: 999px;
+      z-index: 999;
+      letter-spacing: 0.05em;
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport" id="viewport">
+    <div class="board" id="board">
+      <img class="board-bg" src="assets/board-bg.png" alt="背景">
+
+      <div class="cards" id="cards">
+        <article class="card card-1"><img class="card-img" src="assets/card-1.png" alt="01 帮我选AI入口"></article>
+        <article class="card card-2"><img class="card-img" src="assets/card-2.png" alt="02 表达选票诉求"></article>
+        <article class="card card-3"><img class="card-img" src="assets/card-3.png" alt="03 推荐选票方案"></article>
+        <article class="card card-4"><img class="card-img" src="assets/card-4.png" alt="04 选择具体门票"></article>
+      </div>
+
+      <div class="flip-mask"></div>
+      <img class="fx-img fx-l" src="assets/test1-Left.png" alt="左标题">
+      <img class="fx-img fx-r" src="assets/test1-Right.png" alt="右标题">
+      <div class="flipped-yemian">
+        <img class="yemian-layer yemian-img" src="assets/yemian1.png" alt="页面">
+        <video class="yemian-layer yemian-video" playsinline webkit-playsinline preload="auto" muted loop aria-label="页面视频"></video>
+      </div>
+    </div>
+  </div>
+
+  <div class="record-hint" id="hint">准备开始演示…</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    (function () {
+      const board = document.getElementById('board');
+      const hint = document.getElementById('hint');
+      const wait = (ms) => new Promise(r => setTimeout(r, ms));
+      let expandedCard = 0;
+
+      window.__DEMO_CLICK_CARD = function (idx) {
+        const el = {
+          1: board.querySelector('.card-1'),
+          2: board.querySelector('.card-2'),
+          3: board.querySelector('.card-3'),
+          4: board.querySelector('.card-4')
+        }[idx];
+        if (!el) return;
+        el.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+        expandedCard = idx;
+      };
+      window.__DEMO_LEAVE = function () {
+        if (!expandedCard) return;
+        const el = {
+          1: board.querySelector('.card-1'),
+          2: board.querySelector('.card-2'),
+          3: board.querySelector('.card-3'),
+          4: board.querySelector('.card-4')
+        }[expandedCard];
+        if (el) el.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+        board.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+        expandedCard = 0;
+      };
+
+      async function runLoop() {
+        await wait(1600);
+        const steps = [
+          { idx: 1, label: '01 帮我选 AI 入口 · 静态图', hold: 3200 },
+          { idx: 2, label: '02 表达选票诉求 · 视频', hold: 3600 },
+          { idx: 3, label: '03 推荐选票方案 · 视频', hold: 3600 },
+          { idx: 4, label: '04 选择具体门票 · 视频', hold: 3600 }
+        ];
+        // 两次循环保证录制有足够素材
+        for (let loop = 0; loop < 2; loop++) {
+          for (const s of steps) {
+            hint.textContent = s.label;
+            window.__DEMO_CLICK_CARD(s.idx);
+            await wait(s.hold);
+            window.__DEMO_LEAVE();
+            await wait(900);
+          }
+          hint.textContent = loop === 0 ? '即将播放第二轮…' : '演示结束';
+          await wait(700);
+        }
+      }
+
+      const AUTO = new URLSearchParams(window.location.search).get('auto') === '1';
+
+      if (AUTO) {
+        hint.textContent = '自动演示模式 · ?auto=1';
+        // 等入场动画完成再开始
+        setTimeout(runLoop, 2600);
+      } else {
+        hint.textContent = '手动模式 · 鼠标移到卡片上即展开；录屏请访问 index-demo.html?auto=1';
+      }
+    })();
+  </script>
+</body>
+</html>

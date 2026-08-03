@@ -59,7 +59,7 @@
     const vh = window.innerHeight;
     const availW = vw;
     const availH = vh;
-    const s = Math.max(availW / DESIGN_W, availH / DESIGN_H);
+    const s = Math.min(availW / DESIGN_W, availH / DESIGN_H, 1);
     viewport.style.transform = `scale(${s})`;
     viewport.style.width = DESIGN_W + 'px';
     viewport.style.height = DESIGN_H + 'px';

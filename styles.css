@@ -35,9 +35,21 @@ body {
   height: 900px;
   border-radius: 0;
   overflow: visible;
-  background: url('assets/board-bg.png') no-repeat center center;
-  background-size: 1600px 900px;
   z-index: 1;
+}
+
+.board-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1600px;
+  height: 900px;
+  object-fit: fill;
+  display: block;
+  z-index: 1;
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
 }
 
 .cards {

@@ -57,11 +57,9 @@
   function fit() {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const padX = 32;
-    const padY = 32;
-    const availW = vw - padX * 2;
-    const availH = vh - padY * 2;
-    const s = Math.min(availW / DESIGN_W, availH / DESIGN_H, 1);
+    const availW = vw;
+    const availH = vh;
+    const s = Math.max(availW / DESIGN_W, availH / DESIGN_H);
     viewport.style.transform = `scale(${s})`;
     viewport.style.width = DESIGN_W + 'px';
     viewport.style.height = DESIGN_H + 'px';

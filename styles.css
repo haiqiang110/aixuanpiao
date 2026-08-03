@@ -17,6 +17,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 .viewport {
@@ -34,7 +35,6 @@ body {
   border-radius: 0;
   overflow: visible;
   background: #FFFFFF;
-  box-shadow: 0 40px 120px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.5) inset;
 }
 
 .board-bg {

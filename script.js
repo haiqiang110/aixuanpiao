@@ -3,7 +3,6 @@
   const DESIGN_H = 900;
   const viewport = document.getElementById('viewport');
   const board = document.getElementById('board');
-  const bgImg = board.querySelector('.board-bg');
   const cardImgs = board.querySelectorAll('.card-img');
   const cardEls = {
     1: board.querySelector('.card-1'),
@@ -187,7 +186,6 @@
   if (!window.gsap) return;
 
   gsap.set(board, { autoAlpha: 0, scale: 0.985 });
-  gsap.set(bgImg, { autoAlpha: 0, scale: 1.012, transformOrigin: 'center center' });
   gsap.set('.card-1', { y: 60, rotate: -13, autoAlpha: 0 });
   gsap.set('.card-2', { y: 50, rotate: -3, autoAlpha: 0 });
   gsap.set('.card-3', { y: 44, rotate: 2, autoAlpha: 0 });
@@ -202,7 +200,7 @@
   fxR.src = CARD_META[1].srcR;
 
   let loadedCount = 0;
-  const waitTargets = [bgImg, ...cardImgs, yemianImg, fxL, fxR];
+  const waitTargets = [...cardImgs, yemianImg, fxL, fxR];
   function tryStart() {
     loadedCount++;
     if (loadedCount >= waitTargets.length) start();
@@ -210,7 +208,6 @@
   function start() {
     const tl = gsap.timeline();
     tl.to(board, { autoAlpha: 1, scale: 1, duration: 0.45, ease: 'power2.out' })
-      .to(bgImg, { autoAlpha: 1, scale: 1, duration: 0.75, ease: 'expo.out' }, 0.05)
       .to('.card-1', { autoAlpha: 1, y: 0, rotate: -9, duration: 0.95, ease: 'expo.out' }, 0.22)
       .to('.card-2', { autoAlpha: 1, y: 0, rotate: 0, duration: 0.95, ease: 'expo.out' }, 0.32)
       .to('.card-3', { autoAlpha: 1, y: 0, rotate: 8, duration: 0.95, ease: 'expo.out' }, 0.42)

@@ -7,47 +7,37 @@
 html, body {
   width: 100%;
   height: 100%;
-  background: #E1D3FF url('assets/board-bg.png') center center / cover no-repeat;
+  background: #C9B4FF;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .viewport {
   width: 1600px;
   height: 900px;
-  position: relative;
-  transform-origin: center center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: top left;
 }
 
 .board {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 1600px;
   height: 900px;
   border-radius: 0;
   overflow: visible;
-  background: #FFFFFF;
-}
-
-.board-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  background: url('assets/board-bg.png') no-repeat center center;
+  background-size: 1600px 900px;
   z-index: 1;
-  -webkit-user-drag: none;
-  user-select: none;
-  pointer-events: none;
 }
 
 .cards {
